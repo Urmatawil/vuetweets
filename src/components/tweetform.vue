@@ -1,10 +1,10 @@
 <template>
     <div class="tweet-form container" :class="{open:showForm}">
-        <form>
+        <form @submit.prevent="sendTweet">
             <!--agregamos una clase dinamica que se activa cuando showform sea verdadero-->
-            <input type="text" class="form-control" placeholder="Tu nombre" >
-            <textarea class="form-control" rows="3" placeholder="Escribe tu tweet"></textarea>
-            <button type="button" class="btn btn-primary">
+            <input type="text" class="form-control" placeholder="Tu nombre" v-model="username" >
+            <textarea class="form-control" rows="3" placeholder="Escribe tu tweet" v-model="tweet"></textarea>
+            <button type="submit" class="btn btn-primary">
                 Enviar
             </button>
         </form>
@@ -13,12 +13,26 @@
 </template>
 
 <script>
+import {ref} from "vue"
+import {saveTweetsApi} from "../api/tweet"
+
 export default {
     //importamos el el showform como booleano
     props:{
         showForm: Boolean,
     },
+
+    setup() {
+        let username = ref("");
+        let tweet = ref("")
+        
+        const sendTweet = () => {
+            saveTweetsApi(tweet.value, username.value)
+        }
+        return {sendTweet, username, tweet}
+    }
 }
+
 </script>
 
 <style lang="scss" scoped>
