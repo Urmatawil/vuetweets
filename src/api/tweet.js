@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import {TWEETS} from "../utils/constants"
+import {remove} from "lodash"
+import {TWEETS} from "../utils/constants";
+
 
 export const saveTweetsApi = (tweet,username) => {
     const tweets = getTweetsApi();
 
-    if(tweets.length===0){
-        console.log("nuevo")
+    if(!tweets.length){
         const tweetData = [
             {
             id: uuidv4(),
@@ -14,16 +15,17 @@ export const saveTweetsApi = (tweet,username) => {
             created: new Date(),
             },
         ];
-        localStorage.setItem(TWEETS, JSON.stringify(tweetData) )
-    } else {
-        console.log("añadir")
+        localStorage.setItem(TWEETS, JSON.stringify(tweetData))
+    } 
+    else 
+    {
         tweets.push({
             id: uuidv4(),
             tweet,
             username,
             created: new Date(),
         })
-        localStorage.setItem(TWEETS, JSON.stringify(tweets) )
+        localStorage.setItem(TWEETS, JSON.stringify(tweets))
     }
 }
 
@@ -33,4 +35,11 @@ export function getTweetsApi() {
         return JSON.parse(tweetsLocalStorage)
     }
     return []
+}
+
+export function deleteTweetApi(idTweet) {
+    const tweets = getTweetsApi();
+
+    remove(tweets, tweet => tweet.id === idTweet);
+    localStorage.setItem(TWEETS, JSON.stringify(tweets))
 }

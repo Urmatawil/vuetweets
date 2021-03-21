@@ -20,15 +20,24 @@ export default {
     //importamos el el showform como booleano
     props:{
         showForm: Boolean,
+        reloadTweets: Function,
+        openForm: Function,
     },
 
-    setup() {
+    setup(props) {
         let username = ref("");
-        let tweet = ref("")
+        let tweet = ref("")     
         
         const sendTweet = () => {
-            saveTweetsApi(tweet.value, username.value)
+        if( !username.value || !tweet.value ) return;
+
+        saveTweetsApi(tweet.value, username.value);
+        tweet.value = "";
+        username.value = "";
+        props.reloadTweets();
+        props.openForm();
         }
+
         return {sendTweet, username, tweet}
     }
 }
