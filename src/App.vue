@@ -1,7 +1,5 @@
 <template>
-<!--agregamos la funcion de abrir y cerrar al menu-->
  <Menu :openForm="openForm" :showForm="showForm"/>
- <!--agregamos la funcion showform al componente TweetForm -->
  <TweetForm :showForm="showForm" :openForm="openForm" :reloadTweets="reloadTweets"/>
  <List :tweets="tweets" :reloadTweets="reloadTweets"/>
 </template>
@@ -24,12 +22,9 @@ export default {
   setup(){
     let tweets = ref(getTweetsApi().reverse());
 
-    const reloadTweets = () => {
-      tweets.value = getTweetsApi().reverse()
-    }
+    const reloadTweets = () => tweets.value = getTweetsApi().reverse()
 
     return{
-      //sacamos las funciones de useFormTweets con spread operator
       ...useFormTweets(),
       tweets,
       reloadTweets,
