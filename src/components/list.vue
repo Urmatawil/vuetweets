@@ -1,6 +1,7 @@
 <template>
   <div class="container">
       <h1 class="text-center mb-4">Tweets</h1>
+      <p v-if="tweets.length===0">No hay tweets</p>
       <div class="tweet" v-for="tweet in tweets" :key="tweet.id">
           <p class="tweet__title">{{tweet.username}}</p>
           <p class="tweet__text">{{tweet.tweet}}</p>
@@ -19,6 +20,7 @@ import {deleteTweetApi} from "../api/tweet"
 export default {
     props: {
         tweets: Array,
+        reloadTweets: Function,
     },
     components: {
         Close,
@@ -27,14 +29,13 @@ export default {
 
         const formDate = date => moment(date).fromNow();
 
-        const deleteTweet = idTweet => deleteTweetApi(idTweet)
+        const deleteTweet = idTweet => (deleteTweetApi(idTweet),props.reloadTweets())
 
         return {
             formDate,
             deleteTweet,
         }
-    }
-    
+    }  
 }
 </script>
 

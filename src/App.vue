@@ -3,7 +3,7 @@
  <Menu :openForm="openForm" :showForm="showForm"/>
  <!--agregamos la funcion showform al componente TweetForm -->
  <TweetForm :showForm="showForm" :openForm="openForm" :reloadTweets="reloadTweets"/>
- <List :tweets="tweets"/>
+ <List :tweets="tweets" :reloadTweets="reloadTweets"/>
 </template>
 
 <script>
